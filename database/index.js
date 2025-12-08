@@ -1,7 +1,5 @@
-/* eslint-disable no-undef */
 const mongoose = require("mongoose");
 const { mongoURI } = require("../config");
-require("dotenv").config();
 
 mongoose
   .connect(mongoURI)
