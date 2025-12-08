@@ -1,0 +1,39 @@
+name: "CI"
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [develop]
+jobs:
+  test-github-actions:
+    runs-on: ubuntu-latest
+
+    services:
+      mongo:
+        image: mongo:7
+        ports:
+          - 27017:27017
+        env:
+          MONGO_URI: mongodb://localhost:27017/test_git
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v6.1.0
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: install dependecies
+        run: npm ci
+
+      - name: lint application
+        run: npm run lint
+
+      - name: format code
+        run: npm run format
+
+      - name: run tests
+        run: npm test
