@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const { mongoURI } = require("../../config");
 
 const connectToDatabase = async () => {
-  mongoose
+  await mongoose
     .connect(mongoURI)
     .then(() => console.log("Connected to MongoDB for tests"))
     .catch((err) => console.error("Could not connect to MongoDB...", err));
