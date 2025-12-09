@@ -9,16 +9,16 @@ const {
 
 beforeAll(async () => {
   await connectToDatabase();
-}, 30000);
+});
 
 beforeEach(async () => {
   await clearCollections();
-}, 30000);
+});
 
 afterAll(async () => {
   await closeDatabaseConnection();
   await new Promise((resolve) => server.close(resolve));
-}, 30000);
+});
 
 describe("GET /", () => {
   it("test reussie de user", async () => {

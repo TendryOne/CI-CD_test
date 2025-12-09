@@ -8,17 +8,6 @@ jobs:
   test-github-actions:
     runs-on: ubuntu-latest
 
-    services:
-      mongo:
-        image: mongo:7
-        ports:
-          - 27017:27017
-        options: >-
-          --health-cmd "mongosh --eval 'db.adminCommand(\"ping\")'" 
-          --health-interval 10s
-          --health-timeout 10s
-          --health-retries 10
-
     env:
       MONGO_URI: mongodb://mongo:27017/test_git
       NODE_ENV: test
@@ -33,17 +22,13 @@ jobs:
           node-version: 22
           cache: npm
 
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.12.1
+        with:
+          mongodb-version: 7
+
       - name: install dependecies
         run: npm ci
-
-      - name: wait for MongoDB to be ready
-        run: |
-          npm install -g mongodb-cli-tools
-          until mongosh --host mongo:27017 --eval "db.adminCommand('ping')" > /dev/null 2>&1; do
-            echo "Waiting for MongoDB..."
-            sleep 1
-          done
-          echo "MongoDB is ready!"
 
       - name: lint application
         run: npm run lint
