@@ -2,10 +2,13 @@ const mongoose = require("mongoose");
 const { mongoURI } = require("../../config");
 
 const connectToDatabase = async () => {
-  mongoose
-    .connect(mongoURI)
-    .then(() => console.log("Connected to MongoDB for tests"))
-    .catch((err) => console.error("Could not connect to MongoDB...", err));
+  try {
+    await mongoose.connect(mongoURI);
+    console.log("Connected to MongoDB for tests");
+  } catch (err) {
+    console.error("Could not connect to MongoDB...", err);
+    throw err;
+  }
 };
 
 const clearCollections = async () => {

@@ -1,4 +1,4 @@
-const app = require("../../index");
+const { app } = require("../../index");
 const User = require("../../model/user.model");
 const request = require("supertest")(app);
 const {
@@ -25,5 +25,11 @@ describe("GET /", () => {
     const response = await request.get("/");
     expect(response.status).toBe(200);
     expect(response.body[0].name).toBe("hi");
+  });
+
+  it("test echec de user", async () => {
+    const response = await request.get("/");
+    expect(response.status).toBe(404);
+    expect(response.text).toBe("user not found");
   });
 });
