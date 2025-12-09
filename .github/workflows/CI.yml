@@ -21,11 +21,17 @@ jobs:
         with:
           node-version: 22
           cache: npm
-
+      
       - name: Start MongoDB
         uses: supercharge/mongodb-github-action@1.12.1
         with:
           mongodb-version: 7
+
+      - name: Wait for MongoDB
+        run: |
+          npm install mongodb --save-dev
+          node -e "require('mongodb').MongoClient.connect('mongodb://localhost:27017/test_git', (err, client) => { if (err) process.exit(1); client.close(); })"
+        timeout-minutes: 2
 
       - name: install dependecies
         run: npm ci
@@ -38,3 +44,4 @@ jobs:
 
       - name: run tests
         run: npm test
+        timeout-minutes: 10
