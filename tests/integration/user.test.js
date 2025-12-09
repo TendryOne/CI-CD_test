@@ -1,4 +1,4 @@
-const { app, server } = require("../../index");
+const { app } = require("../../index");
 const User = require("../../model/user.model");
 const request = require("supertest")(app);
 const {
@@ -17,7 +17,6 @@ beforeEach(async () => {
 
 afterAll(async () => {
   await closeDatabaseConnection();
-  await new Promise((resolve) => server.close(resolve));
 });
 
 describe("GET /", () => {
